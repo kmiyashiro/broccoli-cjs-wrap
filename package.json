@@ -1,0 +1,25 @@
+{
+  "name": "broccoli-cjs-wrap",
+  "version": "0.0.1",
+  "description": "broccoli filter for wrapping CommonJS modules",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**/*.spec.js --reporter tap"
+  },
+  "author": {
+    "name": "Kelly Miyashiro"
+  },
+  "license": "MIT",
+  "keywords": [
+    "broccoli-plugin",
+    "javascript",
+    "module",
+    "commonjs"
+  ],
+  "dependencies": {
+    "broccoli-filter": "0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^1.17.1"
+  }
+}
