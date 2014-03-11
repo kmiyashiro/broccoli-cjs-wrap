@@ -90,7 +90,7 @@ describe('broccoli-cjs-wrap', function() {
     });
   });
 
-  describe('replaceRelativeRequires', function() {
+  describe('replaceRelativeRequire', function() {
     beforeEach(function() {
       var filter = new Filter();
       this.replaceRelativeRequire = filter.replaceRelativeRequire.bind(filter);
@@ -120,6 +120,11 @@ describe('broccoli-cjs-wrap', function() {
       assert.equal(content, "require('helpers/bar')");
     });
 
+    it('works with a single file as filePath', function() {
+      var content = this.replaceRelativeRequire("require('./bar')", ['']);
+      assert.equal(content, "require('bar')");
+    });
+
     it('works with double quotes', function() {
       var content = this.replaceRelativeRequire('require("../../../bar")', ['helpers', 'tools', 'formatters', 'stuff']);
       assert.equal(content, 'require("helpers/bar")');
@@ -141,6 +146,11 @@ describe('broccoli-cjs-wrap', function() {
     it('replaces all relative paths in a string', function() {
       var content = this.replaceRelativeRequires("require('./bar'); require('../../dog');", 'helpers/tools/formatters/baz.js');
       assert.equal(content, "require('foo/helpers/tools/formatters/bar'); require('foo/helpers/dog');");
+    });
+
+    it('works with a file as path', function() {
+      var content = this.replaceRelativeRequires("require('./bar'); require('./dog');", 'baz.js');
+      assert.equal(content, "require('foo/bar'); require('foo/dog');");
     });
   });
 });
