@@ -1,3 +1,8 @@
+# 0.0.3
+
+* Fix terrible bugs where output wasn't being returned by `processString`
+* Fix bugs with single file filePaths
+
 # 0.0.2
 
 * Tentative support for relative requires
