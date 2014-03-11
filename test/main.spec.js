@@ -108,6 +108,11 @@ describe('broccoli-cjs-wrap', function() {
       var content = this.replaceRelativeRequire("require('../../../bar')", ['helpers', 'tools', 'formatters', 'stuff']);
       assert.equal(content, "require('helpers/bar')");
     });
+
+    it('works with double quotes', function() {
+      var content = this.replaceRelativeRequire('require("../../../bar")', ['helpers', 'tools', 'formatters', 'stuff']);
+      assert.equal(content, 'require("helpers/bar")');
+    });
   });
 
   describe('replaceRelativeRequires', function() {
