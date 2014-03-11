@@ -40,7 +40,7 @@ CjsWrapFilter.prototype.wrap = function (require, moduleName, data) {
 // if name is the main file, return ns/packageName
 // else return ns/name
 CjsWrapFilter.prototype.getName = function (filePath) {
-  var name = filePath.replace(/.js$/, '')
+  var name = filePath.replace(/\.js$/, '')
   var fullPackageName = this.getFullPackageName()
   return name === this.main
     ? fullPackageName
@@ -49,6 +49,7 @@ CjsWrapFilter.prototype.getName = function (filePath) {
 
 CjsWrapFilter.prototype.processString = function (fileContents, filePath) {
   var name = this.getName(filePath)
+  var filteredFileContents = this.replaceRelativeRequires(fileContents, filePath)
   return this.wrap(this.require, name, fileContents)
 }
 
@@ -57,6 +58,61 @@ CjsWrapFilter.prototype.getFullPackageName = function () {
   var path = compact([ this.namespace, this.packageName ]).join('/')
   return this._cachedFullPackageName = path
 }
+
+// replace all instances of '../blah' in string with 'full/module/path/blah'.
+// Same with './foo'.
+CjsWrapFilter.prototype.replaceRelativeRequires = function (fileContents, filePath) {
+  var currentPath = filePath.replace(/\/\w+?\.js$/, '')
+  var pathParts = currentPath.split('/')
+  var fullPackageName = this.getFullPackageName()
+  var prefix = fullPackageName ? fullPackageName + '/' : ''
+
+  var currentDirMatches = fileContents.match(this._currentDirRegex('g')) || []
+  var parentDirMatches = fileContents.match(this._parentDirRegex('g')) || []
+  var relativeRequireCount = currentDirMatches.length + parentDirMatches.length
+  for (var i = 0; i < relativeRequireCount; i++) {
+    fileContents = this.replaceRelativeRequire(fileContents, pathParts, prefix)
+  }
+  return fileContents
+}
+
+// replace '../blah' to 'full/module/path/blah'. Same with './foo'.
+CjsWrapFilter.prototype.replaceRelativeRequire = function (relativePath, filePathParts, prefix) {
+  var currentDirMatches = relativePath.match(this._currentDirRegex('g'))
+  var parentDirMatches = relativePath.match(this._parentDirRegex('g'))
+  var levels = 0;
+  prefix = prefix || ''
+
+  if (currentDirMatches) {
+    return relativePath.replace(this._currentDirRegex(), replacementString())
+  }
+
+  if (parentDirMatches) {
+    levels = parentDirMatches[0].match(/\.\./g).length
+    return relativePath.replace(this._parentDirRegex(), replacementString())
+  }
+
+  function replacementString() {
+    var path = filePathParts.slice(0, filePathParts.length - levels).join('/')
+    path = path
+      ? path + '/'
+      : ''
+    return ["$1", prefix, path, "$3"].join('')
+  }
+}
+
+CjsWrapFilter.prototype._currentDirRegex = function (flags) {
+  return new RegExp(this._currentDirPattern, flags || '')
+}
+
+CjsWrapFilter.prototype._parentDirRegex = function (flags) {
+  return new RegExp(this._parentDirPattern, flags || '')
+}
+
+// [require('][./][blah')]
+CjsWrapFilter.prototype._currentDirPattern = '(require\\([\'\"])(\\.\\/)(.*?[\'\"]\\))'
+
+CjsWrapFilter.prototype._parentDirPattern = '(require\\([\'\"])(\\.\\.\\/)+(.*?[\'\"]\\))'
 
 CjsWrapFilter.prototype._prependNamespace = function (name) {
   var ns = this.namespace

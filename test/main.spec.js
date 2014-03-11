@@ -78,4 +78,53 @@ describe('broccoli-cjs-wrap', function() {
       });
     });
   });
+
+  describe('replaceRelativeRequires', function() {
+    beforeEach(function() {
+      var filter = new Filter();
+      this.replaceRelativeRequire = filter.replaceRelativeRequire.bind(filter);
+    });
+
+    afterEach(function() {
+      delete this.replaceRelativeRequire;
+    });
+
+    it('prepends a prefix to relative requires', function() {
+      var content = this.replaceRelativeRequire("require('./bar')", ['helpers'], 'foo/');
+      assert.equal(content, "require('foo/helpers/bar')");
+    });
+
+    it('replaces "./" with the base filePath', function() {
+      var content = this.replaceRelativeRequire("require('./bar')", ['helpers']);
+      assert.equal(content, "require('helpers/bar')");
+    });
+
+    it('replaces "../" with one level up from filePath', function() {
+      var content = this.replaceRelativeRequire("require('../bar')", ['helpers', 'tools']);
+      assert.equal(content, "require('helpers/bar')");
+    });
+
+    it('replaces "../../../" with 3 levels up from filePath', function() {
+      var content = this.replaceRelativeRequire("require('../../../bar')", ['helpers', 'tools', 'formatters', 'stuff']);
+      assert.equal(content, "require('helpers/bar')");
+    });
+  });
+
+  describe('replaceRelativeRequires', function() {
+    beforeEach(function() {
+      var filter = new Filter(null, {
+        packageName: 'foo'
+      });
+      this.replaceRelativeRequires = filter.replaceRelativeRequires.bind(filter);
+    });
+
+    afterEach(function() {
+      delete this.replaceRelativeRequires;
+    });
+
+    it('replaces all relative paths in a string', function() {
+      var content = this.replaceRelativeRequires("require('./bar'); require('../../dog');", 'helpers/tools/formatters/baz.js');
+      assert.equal(content, "require('foo/helpers/tools/formatters/bar'); require('foo/helpers/dog');");
+    });
+  });
 });
