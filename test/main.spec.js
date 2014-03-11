@@ -37,6 +37,17 @@ describe('broccoli-cjs-wrap', function() {
         'module.exports = {};' +
         ";}});\n");
     });
+
+    it('replaces relative requires', function() {
+      var filter = new Filter();
+      var out = filter.processString('require("./util"); module.exports = {};', 'bar.js');
+      assert.equal(out,
+        filter.require + '.define({"bar":' +
+        'function(exports, require, module){' +
+        'require("util"); ' +
+        'module.exports = {};' +
+        ";}});\n");
+    })
   });
 
   describe('getFullPackageName', function() {

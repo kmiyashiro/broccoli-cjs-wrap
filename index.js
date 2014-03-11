@@ -50,7 +50,7 @@ CjsWrapFilter.prototype.getName = function (filePath) {
 CjsWrapFilter.prototype.processString = function (fileContents, filePath) {
   var name = this.getName(filePath)
   var filteredFileContents = this.replaceRelativeRequires(fileContents, filePath)
-  return this.wrap(this.require, name, fileContents)
+  return this.wrap(this.require, name, filteredFileContents)
 }
 
 CjsWrapFilter.prototype.getFullPackageName = function () {
@@ -62,7 +62,7 @@ CjsWrapFilter.prototype.getFullPackageName = function () {
 // replace all instances of '../blah' in string with 'full/module/path/blah'.
 // Same with './foo'.
 CjsWrapFilter.prototype.replaceRelativeRequires = function (fileContents, filePath) {
-  var currentPath = filePath.replace(/\/\w+?\.js$/, '')
+  var currentPath = filePath.replace(/\/?\w+?\.js$/, '')
   var pathParts = currentPath.split('/')
   var fullPackageName = this.getFullPackageName()
   var prefix = fullPackageName ? fullPackageName + '/' : ''
