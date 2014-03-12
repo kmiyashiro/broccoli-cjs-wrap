@@ -1,3 +1,5 @@
+[![build status](https://secure.travis-ci.org/kmiyashiro/broccoli-cjs-wrap.png)](http://travis-ci.org/kmiyashiro/broccoli-cjs-wrap)
+
 broccoli-cjs-wrap
 ==========================
 
