@@ -62,7 +62,7 @@ CjsWrapFilter.prototype.getFullPackageName = function () {
 // replace all instances of '../blah' in string with 'full/module/path/blah'.
 // Same with './foo'.
 CjsWrapFilter.prototype.replaceRelativeRequires = function (fileContents, filePath) {
-  var currentPath = filePath.replace(/\/?\w+?\.js$/, '')
+  var currentPath = filePath.replace(/\/?[\w-]+?\.js$/, '')
   var pathParts = currentPath.split('/')
   var fullPackageName = this.getFullPackageName()
   var prefix = fullPackageName ? fullPackageName + '/' : ''

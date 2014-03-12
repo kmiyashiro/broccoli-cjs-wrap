@@ -152,5 +152,10 @@ describe('broccoli-cjs-wrap', function() {
       var content = this.replaceRelativeRequires("require('./bar'); require('./dog');", 'baz.js');
       assert.equal(content, "require('foo/bar'); require('foo/dog');");
     });
+
+    it('works with a filename with dashes', function() {
+      var content = this.replaceRelativeRequires("require('./bar'); require('../dog');", 'bob/baz-foo.js');
+      assert.equal(content, "require('foo/bob/bar'); require('foo/dog');");
+    });
   });
 });
