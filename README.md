@@ -32,7 +32,7 @@ module.exports = function (broccoli) {
   }));
 
   var wrappedCjsTree = cjsWrap(pickFiles(cjsTree, {
-    srcDir: 'cjs',
+    srcDir: '',
     destDir: 'cjs-wrapped'
   }));
 
