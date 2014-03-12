@@ -1,3 +1,7 @@
+# 0.0.4
+
+* Support dashes in filenames
+
 # 0.0.3
 
 * Fix terrible bugs where output wasn't being returned by `processString`

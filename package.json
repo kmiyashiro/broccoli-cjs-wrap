@@ -1,6 +1,6 @@
 {
   "name": "broccoli-cjs-wrap",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "broccoli filter for wrapping CommonJS modules",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,9 @@
     "broccoli-filter": "0.1.0"
   },
   "devDependencies": {
-    "mocha": "^1.17.1"
+    "mocha": "^1.17.1",
+    "grunt": "^0.4.3",
+    "grunt-bump": "0.0.13",
+    "load-grunt-tasks": "^0.4.0"
   }
 }
