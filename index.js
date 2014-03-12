@@ -80,7 +80,7 @@ CjsWrapFilter.prototype.replaceRelativeRequires = function (fileContents, filePa
 CjsWrapFilter.prototype.replaceRelativeRequire = function (relativePath, filePathParts, prefix) {
   var currentDirMatches = relativePath.match(this._currentDirRegex('g'))
   var parentDirMatches = relativePath.match(this._parentDirRegex('g'))
-  var levels = 0;
+  var levels = 0
   prefix = prefix || ''
 
   if (currentDirMatches) {
