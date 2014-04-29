@@ -17,7 +17,7 @@
     "commonjs"
   ],
   "dependencies": {
-    "broccoli-filter": "0.1.0"
+    "broccoli-filter": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.17.1",
