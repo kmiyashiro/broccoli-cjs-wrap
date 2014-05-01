@@ -19,6 +19,7 @@ Usage (Sample Brocfile.js)
 var cjsWrap = require('broccoli-cjs-wrap');
 var filterEs6Module = require('broccoli-es6-module-filter');
 var pickFiles = require('broccoli-static-compiler');
+var mergeTrees = require('broccoli-merge-trees');
 
 module.exports = function (broccoli) {
 
@@ -36,7 +37,7 @@ module.exports = function (broccoli) {
     destDir: 'cjs-wrapped'
   }));
 
-  return [cjsTree, wrappedCjsTree];
+  return mergeTrees([cjsTree, wrappedCjsTree]);
 };
 ```
 
