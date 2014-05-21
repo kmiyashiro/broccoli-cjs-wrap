@@ -1,3 +1,7 @@
+# 0.0.5
+
+* Use carrot for broccoli-filter
+
 # 0.0.4
 
 * Support dashes in filenames
