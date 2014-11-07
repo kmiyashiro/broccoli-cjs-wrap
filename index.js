@@ -31,9 +31,9 @@ CjsWrapFilter.prototype._validateOptions = function () {
 
 CjsWrapFilter.prototype.wrap = function (require, moduleName, data) {
   return require + '.define({"' + moduleName + '":' +
-    'function(exports, require, module){' +
+    'function(exports, require, module){\n' +
     data +
-    ';}});\n'
+    '\n;}});\n'
 }
 
 // Returns name used for definition (define("Module/Name"))
