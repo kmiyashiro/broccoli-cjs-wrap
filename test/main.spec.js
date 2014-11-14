@@ -33,9 +33,9 @@ describe('broccoli-cjs-wrap', function() {
       var out = filter.processString('module.exports = {};', 'bar.js');
       assert.equal(out,
         filter.require + '.define({"bar":' +
-        'function(exports, require, module){' +
+        'function(exports, require, module){\n' +
         'module.exports = {};' +
-        ";}});\n");
+        "\n;}});\n");
     });
 
     it('replaces relative requires', function() {
@@ -43,10 +43,10 @@ describe('broccoli-cjs-wrap', function() {
       var out = filter.processString('require("./util"); module.exports = {};', 'bar.js');
       assert.equal(out,
         filter.require + '.define({"bar":' +
-        'function(exports, require, module){' +
+        'function(exports, require, module){\n' +
         'require("util"); ' +
         'module.exports = {};' +
-        ";}});\n");
+        "\n;}});\n");
     })
   });
 
