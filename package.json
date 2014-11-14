@@ -1,6 +1,6 @@
 {
   "name": "broccoli-cjs-wrap",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "broccoli filter for wrapping CommonJS modules",
   "main": "index.js",
   "scripts": {

@@ -1,3 +1,7 @@
+# 0.0.6
+
+* Fix for EOF comments (like `//# sourceMappingUrl`)
+
 # 0.0.5
 
 * Use carrot for broccoli-filter
